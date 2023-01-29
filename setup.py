@@ -71,7 +71,7 @@ else :
             date = line.split (':', 1) [1].strip ()
             break
     f = open ('pyspkac/version.py', 'w')
-    f.write("VERSION="+str(version)+'\n'+"DATE="+str(date))
+    f.write('VERSION="'+str(version)+'"'+'\n'+'DATE="'+str(date)+'"')
     f.close ()
 
 from pyspkac.version import VERSION

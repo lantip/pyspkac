@@ -40,9 +40,9 @@ else :
     from subprocess import Popen, PIPE
     tre  = re.compile (r'.*tag: (V[^ ),]*).*')
     cmd  = 'git log --oneline --decorate=short --first-parent'
-    deco = Popen (cmd.split (), stdout=PIPE).communicate () [0].strip ()
+    deco = Popen (cmd.split (), stdout=PIPE).communicate () [0].decode().strip ()
     v    = None
-    for line in deco.readlines() :
+    for line in deco.split ('\n') :
         if not v :
             v = line.split () [0]
         m = tre.search (line)
@@ -52,10 +52,10 @@ else :
             break
     else :
         cmd = 'git status --porcelain'
-    version = Popen (cmd.split (), stdout = PIPE).communicate () [0].strip ()
+    version = Popen (cmd.split (), stdout = PIPE).communicate () [0].decode().strip ()
     # No tags yet:
     if cmd.endswith ('porcelain') :
-        for l in version.readlines() :
+        for l in version.split ('\n') :
             if l.startswith ('??') :
                 continue
             if l [0:2] != '  ' :
@@ -65,8 +65,8 @@ else :
     if version.startswith ('V_') or version.startswith ('V-') :
         version = version [2:]
     cmd     = 'git log -n 1'
-    log     = Popen (cmd.split (), stdout = PIPE).communicate () [0].strip ()
-    for line in log.readlines() :
+    log     = Popen (cmd.split (), stdout = PIPE).communicate () [0].decode().strip ()
+    for line in log.split ('\n') :
         if line.startswith ('Date:') :
             date = line.split (':', 1) [1].strip ()
             break

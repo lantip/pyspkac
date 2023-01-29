@@ -42,7 +42,7 @@ else :
     cmd  = 'git log --oneline --decorate=short --first-parent'
     deco = Popen (cmd.split (), stdout=PIPE).communicate () [0].strip ()
     v    = None
-    for line in deco.split ('\n') :
+    for line in deco.stdout.readlines() :
         if not v :
             v = line.split () [0]
         m = tre.search (line)
@@ -55,7 +55,7 @@ else :
     version = Popen (cmd.split (), stdout = PIPE).communicate () [0].strip ()
     # No tags yet:
     if cmd.endswith ('porcelain') :
-        for l in version.split ('\n') :
+        for l in version.stdout.readlines() :
             if l.startswith ('??') :
                 continue
             if l [0:2] != '  ' :
@@ -66,7 +66,7 @@ else :
         version = version [2:]
     cmd     = 'git log -n 1'
     log     = Popen (cmd.split (), stdout = PIPE).communicate () [0].strip ()
-    for line in log.split ('\n') :
+    for line in log.stdout.readlines() :
         if line.startswith ('Date:') :
             date = line.split (':', 1) [1].strip ()
             break

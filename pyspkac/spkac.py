@@ -213,7 +213,7 @@ class SPKAC (PEM_Object) :
         """
         try :
             seq, rest = der_decode (b64decode (b64val))
-        except PyAsn1Error, e :
+        except PyAsn1Error(e) :
             raise SPKAC_Decode_Error (e)
         if rest :
             raise SPKAC_Decode_Error ("ASN.1 decode: data after SPKAC value")
